@@ -1,0 +1,26 @@
+# swagger API 설정
+springdoc:
+  api-docs:
+    path: /api-docs
+    enabled: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  swagger-ui:
+    groups-order: DESC
+    operations-sorter: alpha
+    tags-sorter: alpha
+    path: /swagger-ui
+    disable-swagger-default-url: true
+    display-request-duration: true
+  paths-to-match:
+    - /**
+
+# H2-console 설정
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    hikari:
+      jdbc-url: jdbc:h2:mem:testdb
+
