@@ -9,6 +9,7 @@ import com.core.gtd.src.basket.model.request.TaskRequest;
 import com.core.gtd.src.basket.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.event.spi.PostCommitUpdateEventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,24 +37,18 @@ public class TaskBasketService {
 
     @Transactional
     public List<TaskDto> allTasks() {
-        /*
-          taskState가 COMPLETE, DIS_CONTINUE, PUT_OFF 인 상태를 제외한 task를 조회
-          COMPLETE, DIS_CONTINUE, PUT_OFF 상태의 task는 따로 조회하기로 결정
-          게시물 State는 ACTIVE 상태만 출력됨
-         */
-        List<TaskState> excludedTaskStates = Arrays.asList(
-                TaskState.COMPLETE,
-                TaskState.DIS_CONTINUE,
-                TaskState.PUT_OFF
+
+        List<TaskState> taskStates = Arrays.asList(
+                TaskState.BEFORE,
+                TaskState.IN_PROGRESS
         );
+        int updatedCount = taskRepository.updateTasksOverdue(taskStates);
 
-        List<Task> taskList = taskRepository.findTaskByTaskStateNotInAndStateEquals(
-                excludedTaskStates,
-                State.ACTIVE);
-
-        if (taskList.isEmpty()) {
-            throw new AppException(EMPTY_TASKS);
+        if (updatedCount == 0) {
+            throw new AppException(EMPTY_TASKS); // 조회 대상이자 변경 대상인 task가 존재하지 않음
         }
+
+        List<Task> taskList = taskRepository.findTasksInSpecificTaskStates(taskStates);
 
         return taskList.stream()
                 .map(TaskDto::fromEntity)
@@ -66,7 +61,7 @@ public class TaskBasketService {
          클라이언트로부터 taskState를 받아 데이터를 구분 출력
          */
         List<Task> taskList =
-                taskRepository.findTaskByTaskStateEqualsAndStateEquals(taskState, State.ACTIVE);
+                taskRepository.findTaskByTaskState(taskState);
 
         if (taskList.isEmpty()) {
             throw new AppException(EMPTY_TASKS);
@@ -82,8 +77,7 @@ public class TaskBasketService {
         /*
          task를 선택할 시 taskState에 상관없이 전부 조회 가능해야함
          */
-        Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new AppException(TASK_DOES_NOT_EXIST));
+        Task task = getTaskStateActive(taskId);
 
         return TaskDto.fromEntity(task);
     }
@@ -91,8 +85,7 @@ public class TaskBasketService {
     @Transactional
     public TaskDto updateTask(Long taskId, TaskRequest taskUpdateRequest) {
 
-        Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new AppException(TASK_DOES_NOT_EXIST));
+        Task task = getTaskStateActive(taskId);
 
         TaskState taskState = getTaskStateAtStartTime(taskUpdateRequest);
         validateTaskStateAtDeadline(taskUpdateRequest);
@@ -102,14 +95,14 @@ public class TaskBasketService {
         return TaskDto.fromEntity(task);
     }
 
-
     @Transactional
-    public String deleteTask(Long taskId) {
+    public int deleteTask(Long taskId) {
 
-        Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new AppException(TASK_DOES_NOT_EXIST));
+        Task task = getTaskStateActive(taskId);
 
-        return null;
+        return taskRepository.deleteByid(taskId)
+                .filter(result -> result == 1)
+                .orElseThrow(() -> new AppException(DELETE_IS_FAIL));
 
     }
 
@@ -149,6 +142,9 @@ public class TaskBasketService {
                 : TaskState.BEFORE;
     }
 
+    private Task getTaskStateActive(Long taskid) {
 
-
+        return taskRepository.findByIdActive(taskid)
+                .orElseThrow(() -> new AppException(TASK_DOES_NOT_EXIST));
+    }
 }

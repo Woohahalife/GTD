@@ -5,10 +5,11 @@ import com.core.gtd.common.constatnt.State;
 import com.core.gtd.common.constatnt.TaskState;
 import com.core.gtd.common.entity.BaseEntity;
 import com.core.gtd.src.basket.model.request.TaskRequest;
-import com.core.gtd.src.basket.model.request.TaskUpdateRequest;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 
@@ -17,6 +18,8 @@ import java.time.LocalDateTime;
 @ToString(callSuper = true)
 @Builder
 @AllArgsConstructor
+@SQLDelete(sql = "UPDATE task SET state = 'DELETE' where id = ?")
+@SQLRestriction("state <> 'DELETE'") // @Where 어노테이션 Deprecated(6.3)로 인한 대체
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Task extends BaseEntity {
 
@@ -39,7 +42,7 @@ public class Task extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Priority priority;
 
-    @Column(columnDefinition = "TIME")
+    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime startAt;
 
     @Column(columnDefinition = "TIMESTAMP")
@@ -47,14 +50,22 @@ public class Task extends BaseEntity {
 
     //private Long user_id;
 
-    public void update(TaskUpdateRequest taskUpdateRequest) {
+    public void update(TaskRequest taskUpdateRequest,TaskState taskState) {
         this.title = taskUpdateRequest.getTitle();
         this.content = taskUpdateRequest.getContent();
         this.state = taskUpdateRequest.getState();
-        this.taskState = taskUpdateRequest.getTaskState();
+        this.taskState = taskState;
         this.location = taskUpdateRequest.getLocation();
         this.priority = taskUpdateRequest.getPriority();
         this.startAt = taskUpdateRequest.getStartAt();
         this.deadlineAt = taskUpdateRequest.getDeadlineAt();
     }
+
+    public String delete(State state) {
+        this.state = state;
+
+        return "게시물이 삭제되었습니다.";
+    }
+
 }
+
