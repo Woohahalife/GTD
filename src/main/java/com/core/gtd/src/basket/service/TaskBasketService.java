@@ -1,6 +1,5 @@
 package com.core.gtd.src.basket.service;
 
-import com.core.gtd.common.constatnt.State;
 import com.core.gtd.common.constatnt.TaskState;
 import com.core.gtd.common.exception.AppException;
 import com.core.gtd.src.basket.entity.Task;
@@ -9,7 +8,6 @@ import com.core.gtd.src.basket.model.request.TaskRequest;
 import com.core.gtd.src.basket.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.event.spi.PostCommitUpdateEventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -106,7 +104,6 @@ public class TaskBasketService {
 
     }
 
-
     private Task getTaskFromRequest(TaskRequest taskRequest) {
 
         TaskState taskState = getTaskStateAtStartTime(taskRequest);
@@ -130,7 +127,7 @@ public class TaskBasketService {
         LocalDateTime deadline = taskRequest.getDeadlineAt();
 
         if (!deadline.isAfter(taskRequest.getStartAt()) ||
-                !deadline.isAfter(LocalDateTime.now())) {
+            !deadline.isAfter(LocalDateTime.now())) {
             throw new AppException(DEADLINE_IS_INCORRECT);
         }
     }

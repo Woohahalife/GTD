@@ -9,7 +9,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
-import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 
@@ -61,11 +60,11 @@ public class Task extends BaseEntity {
         this.deadlineAt = taskUpdateRequest.getDeadlineAt();
     }
 
-    public String delete(State state) {
-        this.state = state;
-
-        return "게시물이 삭제되었습니다.";
-    }
+//    public String delete(State state) {
+//        this.state = state;
+//
+//        return "게시물이 삭제되었습니다.";
+//    }
 
 }
 
