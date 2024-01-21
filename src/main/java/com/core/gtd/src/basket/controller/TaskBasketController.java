@@ -51,8 +51,7 @@ public class TaskBasketController {
     }
 
     @GetMapping("/detail")
-    public BaseResponse<TaskResponse> getTask(@RequestParam(name = "taskId") Long taskId,
-                                              @RequestBody TaskRequest taskRequest) {
+    public BaseResponse<TaskResponse> getTask(@RequestParam(name = "taskId") Long taskId) {
 
         log.info("Get Mapping - Get task with ID : {}", taskId);
 
@@ -88,7 +87,7 @@ public class TaskBasketController {
     }
 
     @DeleteMapping("/delete/{taskId}")
-    public BaseResponse<String> deleteTask(@PathVariable(name = "taskId") Long taskId) {
+    public BaseResponse<Integer> deleteTask(@PathVariable(name = "taskId") Long taskId) {
 
         log.info("Delete Mapping - Delete task with param : {}", taskId);
 
