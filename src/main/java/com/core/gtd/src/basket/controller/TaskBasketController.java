@@ -4,6 +4,8 @@ import com.core.gtd.common.constatnt.TaskState;
 import com.core.gtd.common.response.BaseResponse;
 import com.core.gtd.src.basket.model.dto.TaskDto;
 import com.core.gtd.src.basket.model.request.TaskRequest;
+import com.core.gtd.src.basket.model.response.SelectedTaskResponse;
+import com.core.gtd.src.basket.model.response.TaskDetailResponse;
 import com.core.gtd.src.basket.model.response.TaskResponse;
 import com.core.gtd.src.basket.service.TaskBasketService;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +32,7 @@ public class TaskBasketController {
             @RequestBody TaskRequest taskCreateRequest
     ) {
 
-        log.info("Post Mapping - Create a new task for XXX(user 생성X), Request Details : {}",
+        log.info("Post Mapping - Create a new task for user_id(user 생성X), Request Details : {}",
                 taskCreateRequest);
 
         TaskDto taskDto = taskBasketService.createTask(taskCreateRequest);
@@ -50,14 +52,14 @@ public class TaskBasketController {
         return response(taskResponseList);
     }
 
-    @GetMapping("/detail")
-    public BaseResponse<TaskResponse> getTask(@RequestParam(name = "taskId") Long taskId) {
+    @GetMapping("/detail/{taskId}")
+    public BaseResponse<SelectedTaskResponse> getTask(@PathVariable(name = "taskId") Long taskId) {
 
         log.info("Get Mapping - Get task with ID : {}", taskId);
 
         TaskDto taskDto = taskBasketService.getTask(taskId);
 
-        return response(TaskResponse.fromDto(taskDto));
+        return response(SelectedTaskResponse.fromDto(taskDto));
     }
 
     @PutMapping("/task-update/{taskId}")
@@ -78,7 +80,7 @@ public class TaskBasketController {
 
         log.info("Get Mapping - Read tasks with param : {}", taskState);
 
-        List<TaskResponse> taskResponseList = taskBasketService.getTaskswithTaskState(taskState)
+        List<TaskResponse> taskResponseList = taskBasketService.getTasksWithTaskState(taskState)
                 .stream()
                 .map(TaskResponse::fromDto)
                 .collect(Collectors.toList());
