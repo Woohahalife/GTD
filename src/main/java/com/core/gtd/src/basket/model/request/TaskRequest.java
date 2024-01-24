@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class TaskRequest {
 
-    private String title;
     private String content;
     private State state;
     private String location;

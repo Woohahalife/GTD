@@ -4,6 +4,7 @@ import com.core.gtd.common.constatnt.Priority;
 import com.core.gtd.common.constatnt.State;
 import com.core.gtd.common.constatnt.TaskState;
 import com.core.gtd.common.entity.BaseEntity;
+import com.core.gtd.src.basket.model.dto.TaskDetailDto;
 import com.core.gtd.src.basket.model.request.TaskRequest;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,6 +12,8 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,8 +28,6 @@ public class Task extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String title;
 
     private String content;
 
@@ -47,12 +48,14 @@ public class Task extends BaseEntity {
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime deadlineAt;
 
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("id asc")
+    private List<TaskDetail> taskDetail = new ArrayList<>();
+
     //private Long user_id;
 
     public void update(TaskRequest taskUpdateRequest,TaskState taskState) {
-        this.title = taskUpdateRequest.getTitle();
         this.content = taskUpdateRequest.getContent();
-        this.state = taskUpdateRequest.getState();
         this.taskState = taskState;
         this.location = taskUpdateRequest.getLocation();
         this.priority = taskUpdateRequest.getPriority();
