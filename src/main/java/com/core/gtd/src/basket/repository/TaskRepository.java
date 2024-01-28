@@ -21,7 +21,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
             """)
     List<Task> findTasksInSpecificTaskStates(@Param("taskStates") List<TaskState> taskStates);
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query("""
             UPDATE Task t
             SET t.taskState = 'DIS_CONTINUE'
@@ -35,14 +35,23 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
             from Task t
             where t.taskState = :taskState
             """)
-    List<Task> findTaskByTaskState(@Param("taskState") TaskState taskState);
+    List<Task> findTasksByTaskState(@Param("taskState") TaskState taskState);
 
     @Query("""
             SELECT t
             FROM Task t
+            left join fetch t.taskDetail td
             WHERE t.id = :taskId
+            and (td.state = 'ACTIVE' or td is null)
             """)
-    Optional<Task> findByIdActive(@Param("taskId") Long id);
+    Optional<Task>  findByIdActive(@Param("taskId") Long id);
+
+    @Query("""
+            select t
+            from Task t
+            where t.id = :taskId
+            """)
+    Optional<Task> find(@Param("taskId") Long id);
 
     @Modifying
     @Query("""

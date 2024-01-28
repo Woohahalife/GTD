@@ -38,15 +38,19 @@ public class TaskBasketService {
 
         List<TaskState> taskStates = Arrays.asList(
                 TaskState.BEFORE,
-                TaskState.IN_PROGRESS
+                TaskState.IN_PROGRESS,
+                TaskState.DIS_CONTINUE
         );
-        int updatedCount = taskRepository.updateTasksOverdue(taskStates);
 
-        if (updatedCount == 0) {
-            throw new AppException(EMPTY_TASKS); // 조회 대상이자 변경 대상인 task가 존재하지 않음
+        // 마감 기한이 지난 task는 자동으로 DIS_CONTINUE 처리
+        taskRepository.updateTasksOverdue(taskStates);
+
+        List<Task> taskList =
+                taskRepository.findTasksInSpecificTaskStates(taskStates);
+
+        if (taskList.isEmpty()) {
+            throw new AppException(EMPTY_TASKS);
         }
-
-        List<Task> taskList = taskRepository.findTasksInSpecificTaskStates(taskStates);
 
         return taskList.stream()
                 .map(TaskDto::fromEntity)
@@ -54,12 +58,12 @@ public class TaskBasketService {
     }
 
     @Transactional
-    public List<TaskDto> getTaskswithTaskState(TaskState taskState) {
+    public List<TaskDto> getTasksWithTaskState(TaskState taskState) {
         /*
          클라이언트로부터 taskState를 받아 데이터를 구분 출력
          */
         List<Task> taskList =
-                taskRepository.findTaskByTaskState(taskState);
+                taskRepository.findTasksByTaskState(taskState);
 
         if (taskList.isEmpty()) {
             throw new AppException(EMPTY_TASKS);
@@ -72,9 +76,7 @@ public class TaskBasketService {
 
     @Transactional
     public TaskDto getTask(Long taskId) {
-        /*
-         task를 선택할 시 taskState에 상관없이 전부 조회 가능해야함
-         */
+         //task를 선택할 시 taskState에 상관없이 전부 조회 가능
         Task task = getTaskStateActive(taskId);
 
         return TaskDto.fromEntity(task);
@@ -94,14 +96,11 @@ public class TaskBasketService {
     }
 
     @Transactional
-    public int deleteTask(Long taskId) {
-
-        Task task = getTaskStateActive(taskId);
+    public Integer deleteTask(Long taskId) {
 
         return taskRepository.deleteByid(taskId)
                 .filter(result -> result == 1)
                 .orElseThrow(() -> new AppException(DELETE_IS_FAIL));
-
     }
 
     private Task getTaskFromRequest(TaskRequest taskRequest) {
@@ -111,7 +110,6 @@ public class TaskBasketService {
         validateTaskStateAtDeadline(taskRequest);
 
         return Task.builder()
-                .title(taskRequest.getTitle())
                 .content(taskRequest.getContent())
                 .state(taskRequest.getState())
                 .taskState(taskState)
@@ -133,7 +131,7 @@ public class TaskBasketService {
     }
 
     private TaskState getTaskStateAtStartTime(TaskRequest taskRequest) {
-        // TaskState가 Dis_CONTINUE, PUT_OFF, CONPLETE가 아닌 것 중에서 선별
+        // TaskState가 DIS_CONTINUE, PUT_OFF, CONPLETE가 아닌 것 중에서 선별
         return LocalDateTime.now().isAfter(taskRequest.getStartAt())
                 ? TaskState.IN_PROGRESS
                 : TaskState.BEFORE;
