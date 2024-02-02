@@ -3,6 +3,7 @@ package com.core.gtd.src.basket.service;
 import com.core.gtd.common.constatnt.TaskState;
 import com.core.gtd.common.exception.AppException;
 import com.core.gtd.src.basket.entity.Task;
+import com.core.gtd.src.basket.model.dto.OnlyTaskDto;
 import com.core.gtd.src.basket.model.dto.TaskDto;
 import com.core.gtd.src.basket.model.request.TaskRequest;
 import com.core.gtd.src.basket.repository.TaskRepository;
@@ -26,15 +27,15 @@ public class TaskBasketService {
     public final TaskRepository taskRepository;
 
     @Transactional
-    public TaskDto createTask(TaskRequest taskCreateRequest) {
+    public OnlyTaskDto createTask(TaskRequest taskCreateRequest) {
 
         Task task = getTaskFromRequest(taskCreateRequest);
 
-        return TaskDto.fromEntity(taskRepository.save(task));
+        return OnlyTaskDto.fromEntity(taskRepository.save(task));
     }
 
     @Transactional
-    public List<TaskDto> allTasks() {
+    public List<OnlyTaskDto> allTasks() {
 
         List<TaskState> taskStates = Arrays.asList(
                 TaskState.BEFORE,
@@ -53,12 +54,12 @@ public class TaskBasketService {
         }
 
         return taskList.stream()
-                .map(TaskDto::fromEntity)
+                .map(OnlyTaskDto::fromEntity)
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public List<TaskDto> getTasksWithTaskState(TaskState taskState) {
+    public List<OnlyTaskDto> getTasksWithTaskState(TaskState taskState) {
         /*
          클라이언트로부터 taskState를 받아 데이터를 구분 출력
          */
@@ -70,7 +71,7 @@ public class TaskBasketService {
         }
 
         return taskList.stream()
-                .map(TaskDto::fromEntity)
+                .map(OnlyTaskDto::fromEntity)
                 .collect(Collectors.toList());
     }
 
@@ -83,16 +84,16 @@ public class TaskBasketService {
     }
 
     @Transactional
-    public TaskDto updateTask(Long taskId, TaskRequest taskUpdateRequest) {
+    public OnlyTaskDto updateTask(Long taskId, TaskRequest taskUpdateRequest) {
 
-        Task task = getTaskStateActive(taskId);
+        Task task = getTaskStateActive(taskId); // 현재 taskDetail과 함께 조회하는 쿼리를 사용중 -> 추후 개별 task만 따로 조회하는 쿼리 만들어 컨텍스트 올릴 예정(01.25)
 
         TaskState taskState = getTaskStateAtStartTime(taskUpdateRequest);
         validateTaskStateAtDeadline(taskUpdateRequest);
 
         task.update(taskUpdateRequest, taskState);
 
-        return TaskDto.fromEntity(task);
+        return OnlyTaskDto.fromEntity(task);
     }
 
     @Transactional

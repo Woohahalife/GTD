@@ -2,6 +2,7 @@ package com.core.gtd.src.basket.controller;
 
 import com.core.gtd.common.constatnt.TaskState;
 import com.core.gtd.common.response.BaseResponse;
+import com.core.gtd.src.basket.model.dto.OnlyTaskDto;
 import com.core.gtd.src.basket.model.dto.TaskDto;
 import com.core.gtd.src.basket.model.request.TaskRequest;
 import com.core.gtd.src.basket.model.response.SelectedTaskResponse;
@@ -35,7 +36,7 @@ public class TaskBasketController {
         log.info("Post Mapping - Create a new task for user_id(user 생성X), Request Details : {}",
                 taskCreateRequest);
 
-        TaskDto taskDto = taskBasketService.createTask(taskCreateRequest);
+        OnlyTaskDto taskDto = taskBasketService.createTask(taskCreateRequest);
 
         return response(TaskResponse.fromDto(taskDto));
     }
@@ -69,7 +70,7 @@ public class TaskBasketController {
 
         log.info("Put Mapping - Update task with ID : {}, detail : {}", taskId, taskUpdateRequest);
 
-        TaskDto taskDto = taskBasketService.updateTask(taskId, taskUpdateRequest);
+        OnlyTaskDto taskDto = taskBasketService.updateTask(taskId, taskUpdateRequest);
 
         return response(TaskResponse.fromDto(taskDto));
     }
