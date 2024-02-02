@@ -4,6 +4,7 @@ import com.core.gtd.common.constatnt.Priority;
 import com.core.gtd.common.constatnt.State;
 import com.core.gtd.common.constatnt.TaskState;
 import com.core.gtd.src.basket.entity.TaskDetail;
+import com.core.gtd.src.basket.model.dto.OnlyTaskDto;
 import com.core.gtd.src.basket.model.dto.TaskDetailDto;
 import com.core.gtd.src.basket.model.dto.TaskDto;
 import lombok.*;
@@ -30,7 +31,7 @@ public class TaskResponse {
     private LocalDateTime startAt;
     private LocalDateTime deadlineAt;
 
-    public static TaskResponse fromDto(TaskDto taskDto) {
+    public static TaskResponse fromDto(OnlyTaskDto taskDto) {
         return TaskResponse.builder()
                 .id(taskDto.getId())
                 .content(taskDto.getContent())

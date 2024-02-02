@@ -14,8 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.core.gtd.common.response.BaseResponse.response;
 
 @Slf4j
-@Controller
-@ResponseBody
+@RestController
 @RequestMapping("/tasks")
 @RequiredArgsConstructor
 public class TaskDetailController {

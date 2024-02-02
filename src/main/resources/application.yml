@@ -2,11 +2,10 @@
 springdoc:
   api-docs:
     path: /api-docs
-    enabled: true
+    version: openapi_3_0
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
   swagger-ui:
-    groups-order: DESC
     operations-sorter: alpha
     tags-sorter: alpha
     path: /swagger-ui
@@ -23,4 +22,15 @@ spring:
   datasource:
     hikari:
       jdbc-url: jdbc:h2:mem:testdb
+  jpa:
+    # sql 쿼리 콘솔 출력 허용
+    show_sql: true
+    properties:
+      hibernate:
+        # SQL 쿼리에 주석을 추가하여 해당 쿼리가 어떤 Hibernate 쿼리에 해당하는지 식별
+        use_sql_comments: true
+        # 쿼리 포멧팅
+        format_sql: true
+    open-in-view: false
+
 

@@ -2,11 +2,9 @@ package com.core.gtd.common.exception;
 
 import com.core.gtd.common.response.BaseResponse;
 import com.core.gtd.common.response.ResponseStatus;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
@@ -29,5 +27,4 @@ public class GlobalExceptionHandler {
         return ResponseEntity.internalServerError()
                 .body(BaseResponse.response(ResponseStatus.INVALID_ERROR));
     }
-
 }
