@@ -1,4 +1,4 @@
-package com.core.gtd.common.entity;
+package com.core.gtd.src.common.entity;
 
 
 import jakarta.persistence.Column;

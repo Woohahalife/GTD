@@ -1,8 +1,8 @@
 package com.core.gtd.src.basket.model.response;
 
-import com.core.gtd.common.constatnt.Priority;
-import com.core.gtd.common.constatnt.State;
-import com.core.gtd.common.constatnt.TaskState;
+import com.core.gtd.src.common.constatnt.Priority;
+import com.core.gtd.src.common.constatnt.State;
+import com.core.gtd.src.common.constatnt.TaskState;
 import com.core.gtd.src.basket.model.dto.TaskDto;
 import lombok.*;
 

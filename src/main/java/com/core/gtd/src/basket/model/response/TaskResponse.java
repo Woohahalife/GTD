@@ -1,19 +1,12 @@
 package com.core.gtd.src.basket.model.response;
 
-import com.core.gtd.common.constatnt.Priority;
-import com.core.gtd.common.constatnt.State;
-import com.core.gtd.common.constatnt.TaskState;
-import com.core.gtd.src.basket.entity.TaskDetail;
+import com.core.gtd.src.common.constatnt.Priority;
+import com.core.gtd.src.common.constatnt.State;
+import com.core.gtd.src.common.constatnt.TaskState;
 import com.core.gtd.src.basket.model.dto.OnlyTaskDto;
-import com.core.gtd.src.basket.model.dto.TaskDetailDto;
-import com.core.gtd.src.basket.model.dto.TaskDto;
 import lombok.*;
 
-import javax.swing.tree.TreePath;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Builder

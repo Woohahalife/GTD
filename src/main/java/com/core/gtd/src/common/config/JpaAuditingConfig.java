@@ -1,4 +1,4 @@
-package com.core.gtd.common.config;
+package com.core.gtd.src.common.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
