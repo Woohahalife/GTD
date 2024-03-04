@@ -1,7 +1,7 @@
 package com.core.gtd.src.basket.service;
 
-import com.core.gtd.common.constatnt.IsComplete;
-import com.core.gtd.common.exception.AppException;
+import com.core.gtd.src.common.constatnt.IsComplete;
+import com.core.gtd.src.common.exception.AppException;
 import com.core.gtd.src.basket.entity.Task;
 import com.core.gtd.src.basket.entity.TaskDetail;
 import com.core.gtd.src.basket.model.dto.TaskDetailDto;
@@ -14,8 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.core.gtd.common.response.ResponseStatus.DELETE_IS_FAIL;
-import static com.core.gtd.common.response.ResponseStatus.TASK_DOES_NOT_EXIST;
+import static com.core.gtd.src.common.response.ResponseStatus.DELETE_IS_FAIL;
+import static com.core.gtd.src.common.response.ResponseStatus.TASK_DOES_NOT_EXIST;
 
 @Slf4j
 @Service

@@ -1,11 +1,11 @@
-package com.core.gtd.common.response;
+package com.core.gtd.src.common.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import static com.core.gtd.common.response.ResponseStatus.SUCCESS;
+import static com.core.gtd.src.common.response.ResponseStatus.SUCCESS;
 
 @Getter
 @AllArgsConstructor

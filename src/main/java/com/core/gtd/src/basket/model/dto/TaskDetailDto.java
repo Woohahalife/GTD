@@ -1,7 +1,7 @@
 package com.core.gtd.src.basket.model.dto;
 
-import com.core.gtd.common.constatnt.IsComplete;
-import com.core.gtd.common.constatnt.State;
+import com.core.gtd.src.common.constatnt.IsComplete;
+import com.core.gtd.src.common.constatnt.State;
 import com.core.gtd.src.basket.entity.Task;
 import com.core.gtd.src.basket.entity.TaskDetail;
 import lombok.AllArgsConstructor;

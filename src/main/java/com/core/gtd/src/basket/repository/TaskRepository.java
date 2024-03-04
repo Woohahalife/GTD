@@ -1,6 +1,6 @@
 package com.core.gtd.src.basket.repository;
 
-import com.core.gtd.common.constatnt.TaskState;
+import com.core.gtd.src.common.constatnt.TaskState;
 import com.core.gtd.src.basket.entity.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

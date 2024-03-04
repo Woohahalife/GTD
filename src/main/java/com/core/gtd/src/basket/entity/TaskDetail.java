@@ -1,8 +1,8 @@
 package com.core.gtd.src.basket.entity;
 
-import com.core.gtd.common.constatnt.IsComplete;
-import com.core.gtd.common.constatnt.State;
-import com.core.gtd.common.entity.BaseEntity;
+import com.core.gtd.src.common.constatnt.IsComplete;
+import com.core.gtd.src.common.constatnt.State;
+import com.core.gtd.src.common.entity.BaseEntity;
 import com.core.gtd.src.basket.model.request.TaskDetailRequest;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,7 +29,7 @@ public class TaskDetail extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private IsComplete isComplete;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "task_id")
     private Task task;
 

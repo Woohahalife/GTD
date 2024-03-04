@@ -1,8 +1,8 @@
 package com.core.gtd.src.basket.model.dto;
 
-import com.core.gtd.common.constatnt.Priority;
-import com.core.gtd.common.constatnt.State;
-import com.core.gtd.common.constatnt.TaskState;
+import com.core.gtd.src.common.constatnt.Priority;
+import com.core.gtd.src.common.constatnt.State;
+import com.core.gtd.src.common.constatnt.TaskState;
 import com.core.gtd.src.basket.entity.Task;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,10 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Builder

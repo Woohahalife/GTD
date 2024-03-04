@@ -1,4 +1,4 @@
-package com.core.gtd.common.constatnt;
+package com.core.gtd.src.common.constatnt;
 
 public enum TaskState {
     BEFORE,

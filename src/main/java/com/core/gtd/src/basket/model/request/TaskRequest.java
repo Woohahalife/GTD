@@ -1,14 +1,12 @@
 package com.core.gtd.src.basket.model.request;
 
-import com.core.gtd.common.constatnt.Priority;
-import com.core.gtd.common.constatnt.State;
-import com.core.gtd.common.constatnt.TaskState;
+import com.core.gtd.src.common.constatnt.Priority;
+import com.core.gtd.src.common.constatnt.State;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter

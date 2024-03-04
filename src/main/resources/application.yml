@@ -1,7 +1,7 @@
 # swagger API 설정
 springdoc:
   api-docs:
-    path: /api-docs
+    path: /public-api/api-docs
     version: openapi_3_0
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
@@ -33,4 +33,6 @@ spring:
         format_sql: true
     open-in-view: false
 
-
+jwt:
+  secret: bab2ee005bf1daad5c736636d8b40184520f49df5d1b3303d923137af0b1dc95
+  access-expired: 600000
